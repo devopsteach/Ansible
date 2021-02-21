@@ -25,14 +25,14 @@ on Amazon EC2 instance
 
     Below command grant sudo access to ansible user. But we strongly recommended using "visudo" command if you are aware vi or nano editor. (on Control node and Managed host)
 
-    echo "ansible ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    x   
 
     Log in as a ansible user on master and generate ssh key (on Control node)
 
     ssh-keygen
 
     Copy keys onto all ansible managed hosts (on Control node)
-
+    
     ssh-copy-id ansible@<target-server>
 
     Ansible server used to create images and store on docker registry. Hence install docker, start docker services and add ansible to the docker group.
@@ -53,4 +53,37 @@ Validation test
     Run ansible command as ansible user it should be successful (Master)
 
     ansible all -m ping
+    
+    
+    LAB WORK
+    
+        CONTROL NODE
+    1) python --version
+    2) yum update
+    3) sudo yum-config-manager --enable epel
+    4) yum repolist
+    5) yum install ansible
+    6) sudo amazon-linux-extras install ansible2
+    7) ansible --version
+    8) vim /etc/ansible/hosts  #add all the managed hosts
+    9) useradd ansible
+    10) passwd ansible # Switch to ansible user
+    11) ssh-keygen
+    
+    MANAGED NODE
+    1) useradd ansible
+    2) passwd ansible
+    3) vim /etc/ssh/sshd_config
+    4) set password authentication as yes
+    5) systemctl restart sshd.service
+    
+    CONTROL NODE
+    1) yum repolist
+    2)  yum list sshpass
+    3)  amazon-linux-extras list sshpass
+    4)  amazon-linux-extras install epel -y
+    5) echo $?
+    6) sudo yum install sshpass
+    7) ssh-copy-id ansible@54.167.88.18 #do this for all the managed node
+    8) ansible all -m ping
 
